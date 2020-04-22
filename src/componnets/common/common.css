@@ -1,0 +1,59 @@
+form{
+    display: flex;
+    justify-content: center;
+}
+.noteInput{
+    width: 50%;
+    padding: 14px 20px;
+    margin: 20px;
+    box-sizing: border-box;
+    border: 1px solid grey;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.alert {
+    color: white;
+    display: flex;
+    justify-content: center;
+  }
+.alert div{
+    width: 50%;
+    padding: 15px;
+    margin: 0;
+    border-radius: 5px;
+}
+.alert-enter{
+    opacity: 0;
+}
+.alert-enter-active{
+    transition: opacity 500ms ease-out;
+    opacity: 1;
+}
+.alert-exit-active{
+    transition: opacity 350ms ease-out;
+    opacity: 0;
+}
+.newNoteAlert{
+    background-color: rgb(36, 172, 36);
+}
+.removeNoteAlert{
+    background-color: rgb(226, 43, 43);
+}
+.warning{
+    background-color: orange;
+}
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+  
+.closebtn:hover {
+    color: black;
+}
+
