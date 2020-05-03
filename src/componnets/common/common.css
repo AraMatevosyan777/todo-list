@@ -1,12 +1,13 @@
-form{
+.form{
     display: flex;
     justify-content: center;
+    width: 100%;
 }
-.noteInput{
-    width: 50%;
+
+.formInput{
+    width: 60%;
     padding: 14px 20px;
-    margin: 20px;
-    box-sizing: border-box;
+    margin: 20px 0;
     border: 1px solid grey;
     border-radius: 4px;
     font-size: 16px;
@@ -15,12 +16,23 @@ form{
     color: white;
     display: flex;
     justify-content: center;
-  }
+    width: 100%;
+}
 .alert div{
-    width: 50%;
+    width: 60%;
     padding: 15px;
     margin: 0;
     border-radius: 5px;
+}
+.alertBody{
+    display: flex;
+    align-items: center;
+}
+.alertBody h4{
+    margin-right: 10px;
+}
+.alertBody p{
+    margin:0;
 }
 .alert-enter{
     opacity: 0;
@@ -34,7 +46,7 @@ form{
     opacity: 0;
 }
 .newNoteAlert{
-    background-color: rgb(36, 172, 36);
+    background-color: #86c232;
 }
 .removeNoteAlert{
     background-color: rgb(226, 43, 43);
@@ -55,5 +67,9 @@ form{
   
 .closebtn:hover {
     color: black;
+}
+.loader{
+    display: flex;
+    justify-content: center;
 }
 

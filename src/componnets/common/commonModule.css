@@ -1,0 +1,33 @@
+@media (max-width:999px){
+    .formInput{
+        width: 80%;
+    }
+    .alert div{
+        width: 80%;
+    }
+}
+@media (max-width:450px){
+    .formInput{
+        padding: 10px 15px;
+        margin-bottom: 10px;
+    }
+    .alertBody{
+        display: flex;
+        align-items: center;
+    }
+    .alertBody p{
+        font-size: 12px;
+        margin: 0;
+    }
+    .alertBody h4{
+        margin-right: 5px;
+        font-size: 14px;
+    }
+    .alert div{
+        padding: 10px;
+    }
+    .loader img{
+        width: 30px;
+    }
+
+}

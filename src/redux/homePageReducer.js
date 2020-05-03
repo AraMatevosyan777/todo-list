@@ -1,56 +1,53 @@
+import * as axios from 'axios';
+
+const SET_NOTES_DATA = 'SET_NOTES_DATA';
 const ADD_NEW_NOTE = 'ADD_NEW_NOTE';
 const ON_HIDE_ALERT = 'ON_HIDE_ALERT';
 const ON_REMOVE = 'ON_REMOVE';
-const ON_TOGGLE = 'ON_TOGGLE';
 const ON_WARNING = 'ON_WARNING';
+const IS_FETCHING = 'IS_FETCHING';
 
 let initialState = {
-    notes:[
-        {id: 0, title: 'Stay at home', complated: false},
-        {id: 1, title: 'Learn React.js', complated: false},
-    ],
+    notes: [],
     alert: {
         boolean: false,
         message: null,
         className: null,
-        title: null,
-    }
+        title: null
+    },
+    isFetching: false
 }
 
-const homePageReducer = (state=initialState, action) => {
-    switch(action.type){
+const homePageReducer = (state = initialState, action) => {
+    switch (action.type) {
         case ADD_NEW_NOTE:
-            let newNote = {
-                id: Date.now(), 
-                title: action.newNote, 
-                complated: false
-            }
             return {
                 ...state,
-                notes: [...state.notes, newNote],
+                notes: [...state.notes, action.payload],
                 alert: {
-                    ...state.alert, 
-                    boolean: true, 
-                    message: action.newNote,
+                    ...state.alert,
+                    boolean: true,
+                    message: 'You added a new note',
                     className: 'newNoteAlert',
-                    title: 'You added a new note'}
+                    title: 'Attention'
+                }
             }
         case ON_REMOVE:
             return {
                 ...state,
                 notes: state.notes.filter(note => note.id !== action.noteId),
-                alert:{
+                alert: {
                     ...state.alert,
                     boolean: true,
-                    message: null,
+                    message: 'You deleted a note',
                     className: 'removeNoteAlert',
-                    title: 'You deleted a note'
+                    title: 'Attention'
                 }
             }
         case ON_WARNING:
             return {
                 ...state,
-                alert:{
+                alert: {
                     ...state.alert,
                     boolean: true,
                     message: 'Enter note',
@@ -61,26 +58,65 @@ const homePageReducer = (state=initialState, action) => {
         case ON_HIDE_ALERT:
             return {
                 ...state,
-                alert: {...state.alert,  boolean: action.boolean}
+                alert: { ...state.alert, boolean: action.boolean }
             }
-        case ON_TOGGLE:
+        case SET_NOTES_DATA:
             return {
                 ...state,
-                notes: state.notes.map(note => {
-                    if(note.id === action.noteId){
-                        return{...note, complated: !note.complated}
-                    }
-                    return note
-                })
+                notes: action.payload
             }
-            default:
-                return state
+        case IS_FETCHING:
+            return {
+                ...state,
+                isFetching: action.boolean
+            }
+        default:
+            return state
     }
 }
 export default homePageReducer;
 
-export const addNewNote = (newNote) => ({type:ADD_NEW_NOTE, newNote});
-export const onNoteRemove = (noteId) => ({type:ON_REMOVE,noteId});
-export const onWarning = () => ({type:ON_WARNING});
-export const onHideAlert = (boolean) => ({type:ON_HIDE_ALERT, boolean});
-export const onToggle = (noteId) => ({type:ON_TOGGLE, noteId});
+const setNotesData = (payload) => ({ type: SET_NOTES_DATA, payload });
+const addNewNote = (payload) => ({ type: ADD_NEW_NOTE, payload });
+const noteRemove = (noteId) => ({ type: ON_REMOVE, noteId });
+export const onWarning = () => ({ type: ON_WARNING });
+export const onHideAlert = (boolean) => ({ type: ON_HIDE_ALERT, boolean });
+const isFetchingAC = (boolean) => ({ type: IS_FETCHING, boolean });
+
+
+export const requestNotes = () => async (dispatch) => {
+    dispatch(isFetchingAC(true))
+    let response = await axios.get('https://to-do-list-3acfa.firebaseio.com/notes.json');
+    if (response.data != null) {
+        const payload = Object.keys(response.data).map(key => {
+            return {
+                ...response.data[key],
+                id: key
+            }
+        })
+        dispatch(setNotesData(payload));
+    }
+    dispatch(isFetchingAC(false));
+}
+
+export const onAddNewNote = (value) => async (dispatch) =>{
+    let newNote = {
+        id: Date.now(), 
+        title: value,
+        date: new Date().toJSON(),
+    };
+    let response = await axios.post('https://to-do-list-3acfa.firebaseio.com/notes.json',newNote);
+        const payload = {
+            ...newNote,
+            id: response.data.name
+        };
+        dispatch(addNewNote(payload));
+}
+
+export const onNoteRemove = (noteId) => async (dispatch) => {
+    axios.delete(`https://to-do-list-3acfa.firebaseio.com/notes/${noteId}.json`).then(response =>{
+            if(response.statusText === "OK"){
+                dispatch(noteRemove(noteId));
+            }
+        })
+}

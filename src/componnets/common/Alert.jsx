@@ -15,10 +15,13 @@ const Alert = (props) => {
             mountOnEnter
             unmountOnExit
         >
-            <div className={"alert"}>
+            <div className="alert">
                 <div className={props.alert.className}>
                     <span className="closebtn" onClick={()=>props.onHideAlert(false)}>&times;</span>
-                    <strong>{props.alert.title}:</strong> {props.alert.message}
+                    <span className="alertBody">
+                        <h4>{props.alert.title}:</h4> 
+                        <p>{props.alert.message}</p>
+                    </span>
                 </div>     
             </div>
         </CSSTransition>

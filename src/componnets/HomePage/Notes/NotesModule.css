@@ -1,0 +1,25 @@
+@media (max-width:999px){
+    .note li{
+        width: 80%;
+    }
+}
+@media (max-width:630px){
+    li div{
+        flex-wrap: wrap;
+    }
+    .container{
+        width: 100%;
+    }
+}
+@media (max-width:450px){
+    li div h4{
+        font-size: 13px;
+    }
+    li div p{
+        font-size: 10px;
+    }
+    .button3 {
+        padding: 3px 7px;
+      }
+
+}
